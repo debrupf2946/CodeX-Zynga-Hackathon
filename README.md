@@ -122,11 +122,11 @@ Final Result: ✅ Verified
 
 | Member | Role |
 |--------|------|
-| Member 1 | Frontend Developer (React + Webcam + Upload UI) |
-| Member 2 | Backend Dev 1 (OCR & DOB extractor using Tesseract) |
-| Member 3 | Backend Dev 2 (Face comparison using FaceNet) |
-| Member 4 | Multilingual OCR, Blur Feedback, Deployment |
-| **Member 5** (You) | GitHub Repo, README, Video Demo, PPT |
+| Anishka Singh | Frontend Developer (React + Webcam + Upload UI) |
+| Azmeen Khatoon | Backend Dev 1 (OCR & DOB extractor using Tesseract) |
+| Anchal Malik | Backend Dev 2 (Face comparison using FaceNet) |
+| Mamta Nishad | Multilingual OCR, Blur Feedback, Deployment |
+| Kahkasha Bano| GitHub Repo, README, Video Demo, PPT |
 
 ---
 
