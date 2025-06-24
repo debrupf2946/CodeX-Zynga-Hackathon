@@ -1,10 +1,10 @@
 flask
 flask-cors
 easyocr
-torch
+torch>=2.6
 torchvision
 torchaudio
-transformers
+transformers==4.40.2
 insightface
 pillow
 gradio
