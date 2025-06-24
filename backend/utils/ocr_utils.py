@@ -14,10 +14,10 @@ print(f"Using device: {device}")
 # Load Donut model
 donut_model_name = "naver-clova-ix/donut-base-finetuned-docvqa"
 donut_processor = DonutProcessor.from_pretrained(donut_model_name)
-donut_model = VisionEncoderDecoderModel.from_pretrained(donut_model_name).to(device)
+donut_model = VisionEncoderDecoderModel.from_pretrained(donut_model_name).to("cpu")
 
 # Load EasyOCR
-easyocr_reader = easyocr.Reader(['en'])
+easyocr_reader = easyocr.Reader(['en'], gpu=False)
 
 # Helper: compute age
 def compute_age(dob_str):
