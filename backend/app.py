@@ -18,19 +18,6 @@ def upload_aadhaar():
     dob = extract_dob_from_aadhaar(file_path)
     return jsonify({"dob": dob})
 
-@app.route('/verify_face', methods=['POST'])
-def verify_face():
-    aadhaar_face = request.files['aadhaar_face']
-    selfie_face = request.files['selfie_face']
-
-    aadhaar_path = os.path.join(UPLOAD_FOLDER, aadhaar_face.filename)
-    selfie_path = os.path.join(UPLOAD_FOLDER, selfie_face.filename)
-    
-    aadhaar_face.save(aadhaar_path)
-    selfie_face.save(selfie_path)
-    
-    confidence = compare_faces(aadhaar_path, selfie_path)
-    return jsonify({"confidence": confidence})
 
 if __name__ == '__main__':
     app.run(debug=True)
