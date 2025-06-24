@@ -28,18 +28,16 @@ def extract_dob_easyocr(image_path):
         dob_pattern = r'(\d{2}/\d{2}/\d{4})'
         yob_pattern = r'(Year of Birth|YOB)\s*:?(\d{4})'
 
-        dob_match = re.search(dob_pattern, full_text)
-        if dob_match:
-            return dob_match.group(1)
-
-        yob_match = re.search(yob_pattern, full_text)
-        if yob_match:
-            return yob_match.group(2)
+        for (bbox, text, prob) in results:
+            if re.search(dob_pattern, text):
+                return re.search(dob_pattern, text).group(1), prob
+            elif re.search(yob_pattern, text):
+                return re.search(yob_pattern, text).group(2), prob
 
     except Exception as e:
         print(f"[EasyOCR] Error: {e}")
 
-    return "DOB not found"
+    return "DOB not found", 0.0
 
 # TrOCR function
 def extract_dob_trocr(image_path):
@@ -72,10 +70,10 @@ def extract_dob_trocr(image_path):
 # Final wrapper function
 def extract_dob(image_path):
     print("👉 Trying EasyOCR...")
-    dob_easy = extract_dob_easyocr(image_path)
+    dob_easy, conf_easy = extract_dob_easyocr(image_path)
     if dob_easy != "DOB not found":
-        print(f"[EasyOCR] DOB: {dob_easy}")
-        return dob_easy
+        print(f"[EasyOCR] DOB: {dob_easy}, Confidence: {conf_easy:.2f}")
+        return dob_easy, conf_easy
 
     print("👉 Trying TrOCR fallback...")
     dob_trocr = extract_dob_trocr(image_path)
