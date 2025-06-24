@@ -6,7 +6,8 @@ from utils.ocr_utils import extract_dob
 image_path = "sample-data/aadhaar_sample.jpg"
 
 # Run
-dob = extract_dob(image_path)
+dob, confidence = extract_dob(image_path)
 
 # Print result
-print(f"\nExtracted DOB: {dob}")
+print(f"Extracted DOB: {dob}")
+print(f"Confidence: {confidence:.2f}")
