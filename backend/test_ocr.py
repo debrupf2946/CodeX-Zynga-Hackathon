@@ -1,12 +1,15 @@
-from utils.ocr_utils import extract_dob
+# test_ocr.py
 
-image_path = "sample-data/aadhaar_sample.jpg"
+from utils.ocr_utils import ocr_extract_info
 
-dob, confidence, age_years, is_18_plus = extract_dob(image_path)
+# Image uploaded in Colab (name accordingly)
+image_path = "sample_data/aadhaar_sample.jpg"
+
+result = ocr_extract_info(image_path)
 
 print("\n===== OCR RESULT =====")
-print(f"Extracted DOB: {dob}")
-print(f"Confidence: {confidence:.2f}")
-print(f"Age: {age_years} years")
-print(f"Meets 18+ criteria: {'✅ Yes' if is_18_plus else '❌ No'}")
+print(f"Extracted DOB: {result['dob']}")
+print(f"Confidence: {result['confidence']:.2f}")
+print(f"Age: {result['age']} years")
+print(f"Meets 18+ criteria: {'✅ Yes' if result['is_18_or_more'] else '❌ No'}")
 print("======================\n")
