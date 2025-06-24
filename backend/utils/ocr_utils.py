@@ -37,11 +37,16 @@ def compute_age(dob_str):
         return 0
 
 # Extract DOB with Donut
+
 def extract_dob_donut(image_path):
     try:
         image = Image.open(image_path).convert("RGB")
         pixel_values = donut_processor(images=image, return_tensors="pt").pixel_values.to(device)
-        generated_ids = donut_model.generate(pixel_values, max_length=512)
+
+        # Safe execution: disable AMP autocast
+        with torch.cuda.amp.autocast(enabled=False):
+            generated_ids = donut_model.generate(pixel_values, max_length=512)
+
         generated_text = donut_processor.batch_decode(generated_ids, skip_special_tokens=True)[0]
 
         print(f"[Donut] Generated text: {generated_text}")
@@ -62,6 +67,7 @@ def extract_dob_donut(image_path):
 
     except Exception as e:
         print(f"[Donut] Error: {e}")
+        torch.cuda.empty_cache()  # Clean GPU
         return "DOB not found", 0.0
 
 # Extract DOB with EasyOCR
