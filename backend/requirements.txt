@@ -1,1 +1,5 @@
+torch>=2.1
+transformers>=4.39
+easyocr>=1.7
+pillow
 
