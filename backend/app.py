@@ -15,8 +15,13 @@ def upload_aadhaar():
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(file_path)
     
-    dob = extract_dob_from_aadhaar(file_path)
-    return jsonify({"dob": dob})
+    dob, confidence, age_years, is_18_plus = extract_dob(image_path)
+    return jsonify({
+        "dob": dob,
+        "confidence": confidence,
+        "age_years": age_years,
+        "is_18_plus": is_18_plus
+    })
 
 
 if __name__ == '__main__':
