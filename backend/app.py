@@ -1,8 +1,7 @@
 # app.py
 from flask import Flask, request, jsonify
 import os
-from utils.ocr_utils import extract_dob_from_aadhaar
-from utils.face_utils import compare_faces
+from utils.ocr_utils import ocr_extract_info
 
 app = Flask(__name__)
 
