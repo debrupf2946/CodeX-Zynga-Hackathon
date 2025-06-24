@@ -12,7 +12,7 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 print(f"Using device: {device}")
 
 # Load Donut model
-donut_model_name = "naver-clova-ix/donut-base-finetuned-docvqa"
+donut_model_name = "naver-clova-ix/donut-swin-tiny"
 donut_processor = DonutProcessor.from_pretrained(donut_model_name)
 donut_model = VisionEncoderDecoderModel.from_pretrained(donut_model_name).to(device)
 
