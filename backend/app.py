@@ -1,4 +1,4 @@
-# app.py
+# app.pyMore actions
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
@@ -18,7 +18,7 @@ def upload_aadhaar():
     file = request.files['aadhaar_image']
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(file_path)
-    
+
     result = ocr_extract_info(file_path)
 
     return jsonify({
