@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 import cv2
-from utils.ocr_utils import ocr_extract_info
+from utils.ocr_utils import ocr_extract_info, convert_pdf_to_image
 from backend.face_detector import FaceDetector
 from backend.face_embedder import FaceEmbedder
 from backend.face_comparator import FaceComparator
@@ -42,7 +42,11 @@ def upload_aadhaar():
     filename = secure_filename(file.filename)
     file_path = os.path.join(UPLOAD_FOLDER, filename)
     file.save(file_path)
-
+    
+    # Convert PDF to image if needed
+    if file_path.lower().endswith(".pdf"):
+        file_path = convert_pdf_to_image(file_path)
+    
     result = ocr_extract_info(file_path)
 
     return jsonify({
