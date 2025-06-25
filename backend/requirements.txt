@@ -12,3 +12,4 @@ keras-facenet
 opencv-python
 numpy
 scipy
+pdf2image
