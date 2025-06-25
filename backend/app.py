@@ -23,7 +23,6 @@ def upload_aadhaar():
 
     return jsonify({
         "dob": result['dob'],
-        "dob_confidence": result['dob_confidence'],
         "age_years": result['age'],
         "is_18_plus": result['is_18_or_more']
     })
