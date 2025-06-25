@@ -25,10 +25,8 @@ def ocr_extract_info(image_path):
     dob_match = re.search(r'\d{2}/\d{2}/\d{4}', full_text)
     if dob_match:
         dob = dob_match.group(0)
-        confidence = 0.85  # Estimated confidence
     else:
         dob = "DOB not found"
-        confidence = 0.00
 
     try:
         age_years = compute_age(dob) if dob != "DOB not found" else 0
@@ -40,7 +38,6 @@ def ocr_extract_info(image_path):
 
     return {
         'dob': dob,
-        'confidence': confidence,
         'age': age_years,
         'is_18_or_more': is_18_plus
     }
