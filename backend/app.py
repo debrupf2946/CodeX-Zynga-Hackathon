@@ -3,10 +3,10 @@ from flask_cors import CORS
 import os
 import cv2
 from utils.ocr_utils import ocr_extract_info, convert_pdf_to_image
-from backend.face_detector import FaceDetector
-from backend.face_embedder import FaceEmbedder
-from backend.face_comparator import FaceComparator
-from backend.face_verification import FaceVerificationSystem
+from face_detector import FaceDetector
+from face_embedder import FaceEmbedder
+from face_comparator import FaceComparator
+from face_verification import FaceVerificationSystem
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
