@@ -12,11 +12,17 @@ def compute_age(dob_str):
     return age
 
 def ocr_extract_info(image_path):
+    # Aadhaar languages: en, hi, as, bn, gu, kn, ml, mr, or, pa, ta, te, ur
+    aadhaar_langs = [
+        'en', 'hi', 'as', 'bn', 'gu', 'kn', 'ml', 'mr',
+        'or', 'pa', 'ta', 'te', 'ur'
+    ]
+
     # Auto-detect GPU
     gpu_available = torch.cuda.is_available()
     print(f"👉 EasyOCR — using GPU: {gpu_available}")
 
-    reader = easyocr.Reader(['en'], gpu=gpu_available)
+    reader = easyocr.Reader(aadhaar_langs, gpu=gpu_available)
     result = reader.readtext(image_path, detail=0)
     full_text = " ".join(result)
     print(f"[EasyOCR] Full text: {full_text}")
