@@ -1,15 +1,20 @@
 # app.py
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import os
 from utils.ocr_utils import ocr_extract_info
 
 app = Flask(__name__)
+CORS(app)  # Allow requests from frontend
 
 UPLOAD_FOLDER = 'static/'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 @app.route('/upload_aadhaar', methods=['POST'])
 def upload_aadhaar():
+    if 'aadhaar_image' not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+
     file = request.files['aadhaar_image']
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
     file.save(file_path)
@@ -26,4 +31,3 @@ def upload_aadhaar():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
