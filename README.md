@@ -21,13 +21,13 @@ Develop a mobile or web-based system to:
 Our solution is divided into four major components:
 
 1. **Aadhaar OCR**  
-   Extracts **DOB** and **face image** from Aadhaar using **Tesseract OCR** and **OpenCV**.
+   Extracts **DOB** and **face image** from Aadhaar using **EasyOCR** and **OpenCV**.
 
 2. **Selfie Capture**  
-   Captures live image using device webcam via **React** or **Next.js** interface.
+   Captures live image using device webcam via **React** interface.
 
 3. **Face Comparison**  
-   Uses **FaceNet** or **MobileFaceNet** to compare Aadhaar photo and selfie via **facial embeddings**.
+   Uses **FaceNet** to compare Aadhaar photo and selfie via **facial embeddings**.
 
 4. **Verification Output**  
    Displays:
@@ -53,11 +53,11 @@ Frontend (React)  <-->  Backend API (Flask/FastAPI)
 
 | Tool | Purpose |
 |------|---------|
-| **PyTesseract** | OCR for extracting DOB and text |
+| **EasyOCR** | OCR for extracting DOB and text |
 | **OpenCV** | Image pre-processing |
-| **FaceNet / MobileFaceNet** | Face embedding & comparison |
-| **React / Next.js** | Frontend for file upload & selfie |
-| **Flask / FastAPI** | Backend APIs |
+| **FaceNet** | Face embedding & comparison |
+| **React** | Frontend for file upload & selfie |
+| **Flask** | Backend APIs |
 | **PIL, NumPy** | Image manipulation |
 | **Regex** | DOB & Aadhaar parsing |
 | **Google Colab** | Model prototyping and testing |
@@ -68,7 +68,7 @@ Frontend (React)  <-->  Backend API (Flask/FastAPI)
 
 ### 🧾 Aadhaar OCR
 1. Pre-process image (blur, sharpen, rotate)
-2. Extract text + bounding boxes using **PyTesseract**
+2. Extract text + bounding boxes using **EasyOCR**
 3. Use Regex to extract **DOB** in formats like `DD/MM/YYYY`
 4. Extract Aadhaar photo region using **face detection**
 
@@ -79,7 +79,7 @@ Frontend (React)  <-->  Backend API (Flask/FastAPI)
 ### Face Comparison
 1. Extract 128D or 512D embeddings using **FaceNet**
 2. Compute cosine similarity
-3. Threshold-based verification (e.g., > 0.75 match)
+3. Threshold-based verification (e.g., > 0.50 match)
 
 ### Final Decision
 - If DOB age ≥ 18 → ✅  
@@ -122,11 +122,21 @@ Final Result: ✅ Verified
 
 | Member | Role |
 |--------|------|
-| Anishka Singh | Frontend Developer (React + Webcam + Upload UI) |
-| Azmeen Khatoon | Backend Dev 1 (OCR & DOB extractor using Tesseract) |
-| Anchal Malik | Backend Dev 2 (Face comparison using FaceNet) |
-| Mamta Nishad | Multilingual OCR, Blur Feedback, Deployment |
-| Kahkasha Bano| GitHub Repo, README, Video Demo, PPT |
+| Anishka Singh
+anishkabt002btdmam22@igdtuw.ac.in
+[https://github.com/Anishka24]| Frontend Developer (React + Webcam + Upload UI) |
+| Azmeen Khatoon 
+azmeen017btaiml22@igdtuw.ac.in
+[https://github.com/Hustler-01]| Backend Dev 1 (OCR & DOB extractor using Tesseract) |
+| Anchal Malik
+anchal007btaiml22@igdtuw.ac.in
+[https://github.com/anchal405]| Backend Dev 2 (Face comparison using FaceNet) |
+| Mamta Nishad 
+mamta103btcse22@igdtuw.ac.in
+[https://github.com/Mamtagithubrit]| Multilingual OCR, Blur Feedback, Deployment |
+| Kahkasha Bano
+kahkasha056bteceai22@igdtuw.ac.in
+[https://github.com/Kahkasha-Bano]| GitHub Repo, README, Video Demo, PPT |
 
 ---
 
