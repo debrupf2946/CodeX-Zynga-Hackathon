@@ -8,11 +8,43 @@ const App = () => {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const capture = () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    setCapturedImage(imageSrc);
-    alert("✅ Selfie captured!");
-  };
+ const capture = async () => {
+  const imageSrc = webcamRef.current.getScreenshot();
+  if (!imageSrc) {
+    alert("⚠️ Unable to capture image. Please allow camera access or reload.");
+    return;
+  }
+
+  const byteString = atob(imageSrc.split(',')[1]);
+  const mimeString = imageSrc.split(',')[0].split(':')[1].split(';')[0];
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i++) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  const blob = new Blob([ab], { type: mimeString });
+  const selfieFile = new File([blob], "selfie.jpg", { type: mimeString });
+
+  // ⬇️ Check blur via backend
+  const blurForm = new FormData();
+  blurForm.append("selfie", selfieFile);
+
+  try {
+    const res = await fetch("http://localhost:5000/api/check_blur", {
+      method: "POST",
+      body: blurForm,
+    });
+
+    const data = await res.json();
+    if (data.blurry) {
+      alert("⚠️ The captured selfie is blurry! Please try again.");
+    } else {
+      setSelfie(selfieFile);
+    }
+  } catch (err) {
+    alert("Blur check failed. Please try again.");
+  }
+};
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
