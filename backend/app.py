@@ -8,6 +8,7 @@ from face_embedder import FaceEmbedder
 from face_comparator import FaceComparator
 from face_verification import FaceVerificationSystem
 from werkzeug.utils import secure_filename
+import numpy as np
 
 app = Flask(__name__)
 CORS(app)
@@ -23,7 +24,7 @@ def allowed_file(filename):
 
 # Load face verification components
 face_detector = FaceDetector(
-    prototxt_path="models/deploy.prototxt.txt",
+    prototxt_path="models/deploy.prototxt",
     model_path="models/res10_300x300_ssd_iter_140000.caffemodel"
 )
 face_embedder = FaceEmbedder()
@@ -52,7 +53,7 @@ def upload_aadhaar():
     return jsonify({
         "dob": result['dob'],
         "age_years": result['age'],
-        "is_18_plus": result['is_18_or_more']
+        "is_18_plus": bool(result['is_18_or_more'])
     })
 
 @app.route('/verify', methods=['POST'])
@@ -80,14 +81,30 @@ def verify_faces():
 
     if verification['status'] != 'success':
         return jsonify({"error": verification['error']}), 500
+    
+    # Convert numpy types to Python native types
+    match_result = bool(verification['verification']['match'])
+    confidence = float(verification['verification']['confidence'])
+    is_18_plus = bool(ocr_result['is_18_or_more'])
+    
+    # Prepare quality dict with Python native types
+    quality = {}
+    if 'quality' in verification['verification']:
+        for k, v in verification['verification']['quality'].items():
+            if isinstance(v, (np.generic)):
+                quality[k] = v.item()
+            else:
+                quality[k] = v
+    else:
+        quality = {"id_quality": "unknown", "selfie_quality": "unknown"}
 
     return jsonify({
         "dob": ocr_result['dob'],
-        "age": ocr_result['age'],
-        "is18Plus": ocr_result['is_18_or_more'],
-        "isMatch": verification['verification']['match'],
-        "matchScore": verification['verification']['confidence'],
-        "quality": verification['verification']['quality']
+        "age": int(ocr_result['age']),
+        "is18Plus": is_18_plus,
+        "isMatch": match_result,
+        "matchScore": confidence,
+        "quality": quality
     })
 
 if __name__ == '__main__':
