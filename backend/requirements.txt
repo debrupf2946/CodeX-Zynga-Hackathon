@@ -1,7 +1,7 @@
 flask
 flask-cors
 easyocr==1.7.1
-torch>=1.10.0
+# torch>=1.10.0 is now installed separately in the Dockerfile
 tensorflow==2.15.0
 keras-facenet==0.3.2
 opencv-python-headless

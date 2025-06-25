@@ -15,8 +15,12 @@ RUN apt-get update && apt-get install -y \
 # Copy requirements first for better caching
 COPY backend/requirements.txt .
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+# Install Python dependencies with improved error handling for PyTorch
+RUN pip install --upgrade pip && \
+    # Install PyTorch separately with a specific URL to avoid invalid wheel issues
+    pip install --no-cache-dir torch==2.0.0 torchvision==0.15.1 --index-url https://download.pytorch.org/whl/cpu && \
+    # Install the rest of the requirements
+    pip install --no-cache-dir -r requirements.txt
 
 # Copy model files
 COPY models/ /app/models/
