@@ -1,6 +1,0 @@
-tensorflow==2.16.2
-keras-facenet
-opencv-python
-numpy
-scipy
-
