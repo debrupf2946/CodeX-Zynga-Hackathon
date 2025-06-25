@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: aadhar-face-verification
+    env: python
+    region: oregon
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: python backend/app.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.13
