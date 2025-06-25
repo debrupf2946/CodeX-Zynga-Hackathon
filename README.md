@@ -123,7 +123,7 @@ Final Result: ✅ Verified
 | Member                                                                                   | Role                                                  |
 |------------------------------------------------------------------------------------------|-------------------------------------------------------|
 | Anishka Singh<br>anishkabt002btdmam22@igdtuw.ac.in<br>https://github.com/Anishka24       | Frontend Developer (React + Webcam + Upload UI)       |
-| Azmeen Khatoon<br>azmeen017btaiml22@igdtuw.ac.in<br>https://github.com/Hustler-01        | Backend Dev 1 (OCR & DOB extractor using Tesseract)   |
+| Azmeen Khatoon<br>azmeen017btaiml22@igdtuw.ac.in<br>https://github.com/Hustler-01        | Backend Dev 1 (OCR & DOB extractor using EasyOCR with PyTorch & OpenCV)   |
 | Anchal Malik<br>anchal007btaiml22@igdtuw.ac.in<br>https://github.com/anchal405           | Backend Dev 2 (Face comparison using FaceNet)         |
 | Mamta Nishad<br>mamta103btcse22@igdtuw.ac.in<br>https://github.com/Mamtagithubrit        | Multilingual OCR, Blur Feedback, Deployment           |
 | Kahkasha Bano<br>kahkasha056bteceai22@igdtuw.ac.in<br>https://github.com/Kahkasha-Bano   | GitHub Repo, README, Video Demo, PPT                  |
