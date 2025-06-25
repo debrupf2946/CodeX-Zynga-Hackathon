@@ -137,8 +137,8 @@ Once all code is merged into the repo:
 
 ```bash
 # Clone the repo
-git clone https://github.com/yourusername/age-verification-aadhar.git
-cd age-verification-aadhar
+git clone https://github.com/Hustler-01/CodeX-Zynga-Hackathon.git
+cd CodeX-Zynga-Hackathon
 
 # Run backend
 cd backend/
