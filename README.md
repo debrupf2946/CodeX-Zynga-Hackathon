@@ -1,5 +1,3 @@
-Initial push to trigger GitHub Pages deploy.
-
 # CodeX-Zynga-Hackathon
 
 
