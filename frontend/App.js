@@ -4,7 +4,6 @@ import Webcam from "react-webcam";
 const App = () => {
   const webcamRef = useRef(null);
   const canvasRef = useRef(null);
-
   const [capturedImage, setCapturedImage] = useState(null);
   const [uploadedFile, setUploadedFile] = useState(null);
   const [result, setResult] = useState(null);
@@ -12,42 +11,30 @@ const App = () => {
   const [cameraError, setCameraError] = useState(false);
   const [isBlurry, setIsBlurry] = useState(false);
 
-  // Blurriness detection
   const isImageBlurry = (image) => {
     return new Promise((resolve) => {
       const canvas = canvasRef.current;
       const ctx = canvas.getContext("2d");
       const img = new Image();
       img.src = image;
-
       img.onload = () => {
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
         const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         let total = 0;
-
         for (let i = 0; i < imgData.data.length; i += 4) {
-          const gray =
-            0.299 * imgData.data[i] +
-            0.587 * imgData.data[i + 1] +
-            0.114 * imgData.data[i + 2];
+          const gray = 0.299 * imgData.data[i] + 0.587 * imgData.data[i + 1] + 0.114 * imgData.data[i + 2];
           total += gray;
         }
-
         const mean = total / (imgData.data.length / 4);
         let variance = 0;
-
         for (let i = 0; i < imgData.data.length; i += 4) {
-          const gray =
-            0.299 * imgData.data[i] +
-            0.587 * imgData.data[i + 1] +
-            0.114 * imgData.data[i + 2];
+          const gray = 0.299 * imgData.data[i] + 0.587 * imgData.data[i + 1] + 0.114 * imgData.data[i + 2];
           variance += Math.pow(gray - mean, 2);
         }
-
         variance = variance / (imgData.data.length / 4);
-        resolve(variance < 100); // adjust threshold if needed
+        resolve(variance < 100);
       };
     });
   };
@@ -55,18 +42,16 @@ const App = () => {
   const capture = async () => {
     const imageSrc = webcamRef.current?.getScreenshot();
     if (!imageSrc) {
-      alert("⚠️ Failed to capture. Make sure your camera is allowed and working.");
+      alert("⚠️ Camera capture failed.");
       return;
     }
-
     const blurry = await isImageBlurry(imageSrc);
     setCapturedImage(imageSrc);
     setIsBlurry(blurry);
-
     if (blurry) {
-      alert("⚠️ This image is blurry. Please retake the selfie.");
+      alert("⚠️ Image is blurry. Please retake.");
     } else {
-      alert("✅ Selfie captured clearly!");
+      alert("✅ Clear selfie captured!");
     }
   };
 
@@ -78,12 +63,11 @@ const App = () => {
 
   const handleSubmit = async () => {
     if (!uploadedFile || !capturedImage) {
-      alert("⚠️ Please upload Aadhaar and capture a selfie first.");
+      alert("⚠️ Aadhaar and selfie both required.");
       return;
     }
-
     if (isBlurry) {
-      alert("⚠️ Cannot submit a blurry selfie. Please retake it.");
+      alert("❌ Blurry selfie. Please recapture.");
       return;
     }
 
@@ -102,7 +86,7 @@ const App = () => {
       const data = await response.json();
       setResult(data);
     } catch (err) {
-      alert("❌ Error verifying: " + err.message);
+      alert("❌ Verification failed: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -110,29 +94,22 @@ const App = () => {
 
   return (
     <div className="container">
-      <h1>Age & Identity Verification</h1>
+      <h1>Age & Face Verification</h1>
 
       <div className="upload-section">
         <label>Upload Aadhaar (PDF/JPG/PNG): </label>
-        <input
-          type="file"
-          accept=".pdf,.jpg,.jpeg,.png"
-          onChange={handleFileChange}
-        />
+        <input type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileChange} />
       </div>
 
       {uploadedFile && (
-        <div>
-          <h3>Aadhaar Preview:</h3>
-          <img
-            src={URL.createObjectURL(uploadedFile)}
-            alt="Aadhaar Preview"
-            style={{ width: "100%", borderRadius: "10px" }}
-          />
-        </div>
+        <img
+          src={URL.createObjectURL(uploadedFile)}
+          alt="Aadhaar Preview"
+          style={{ width: "100%", marginTop: "10px", borderRadius: "8px" }}
+        />
       )}
 
-      <div style={{ margin: "20px 0", textAlign: "center" }}>
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
         <Webcam
           audio={false}
           height={240}
@@ -141,68 +118,44 @@ const App = () => {
           width={240}
           videoConstraints={{ facingMode: "user" }}
           onUserMediaError={() => setCameraError(true)}
-          style={{
-            borderRadius: "50%",
-            border: "3px solid #3b82f6",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
-            backgroundColor: "#ddd"
-          }}
+          style={{ borderRadius: "50%", border: "3px solid #333" }}
         />
-        {cameraError && (
-          <p style={{ color: "red", marginTop: "10px" }}>
-            ❌ Camera access denied or not working. Please enable it in your browser settings.
-          </p>
-        )}
-        <button className="capture-button" onClick={capture} aria-label="Capture Selfie">
-          Capture Selfie
-        </button>
+        <button onClick={capture} style={{ marginTop: "10px" }}>Capture Selfie</button>
+        {cameraError && <p style={{ color: "red" }}>❌ Camera not available.</p>}
       </div>
 
       {capturedImage && (
-        <div>
-          <h3>Selfie Preview:</h3>
-          <img
-            src={capturedImage}
-            alt="Captured"
-            style={{
-              width: "200px",
-              height: "200px",
-              borderRadius: "50%",
-              border: "3px solid #10b981",
-              margin: "10px auto",
-              display: "block",
-              objectFit: "cover",
-            }}
-          />
-          {isBlurry && (
-            <p style={{ color: "orange", textAlign: "center" }}>
-              ⚠️ This selfie appears blurry. Please retake it.
-            </p>
-          )}
-        </div>
+        <img
+          src={capturedImage}
+          alt="Selfie Preview"
+          style={{
+            width: "200px",
+            height: "200px",
+            borderRadius: "50%",
+            margin: "10px auto",
+            display: "block",
+            objectFit: "cover",
+            border: "3px solid green"
+          }}
+        />
       )}
 
-      <button
-        onClick={handleSubmit}
-        disabled={loading}
-        style={{ marginTop: "20px" }}
-      >
+      <button onClick={handleSubmit} disabled={loading}>
         {loading ? "Verifying..." : "Submit"}
       </button>
 
       {result && (
-        <div className="result-section">
-          <h3>Verification Result</h3>
-          <p><strong>Age:</strong> {result.age}</p>
-          <p><strong>Match:</strong> {result.isMatch ? "✅ Likely Same Person" : "❌ Not Same"}</p>
-          {result.matchScore !== undefined && (
-            <p><strong>Match Confidence:</strong> {result.matchScore.toFixed(2)}%</p>
-          )}
+        <div className="result-section" style={{ marginTop: "20px" }}>
+          <h3>Verification Results</h3>
+          <p><strong>Age:</strong> {result.age} years</p>
           <p><strong>18+:</strong> {result.is18Plus ? "✅ Yes" : "❌ No"}</p>
+          <p><strong>Face Match:</strong> {result.isMatch ? "✅ Match" : "❌ No Match"}</p>
+          <p><strong>Match Score:</strong> {result.matchScore?.toFixed(2)}%</p>
+          <p><strong>ID Quality:</strong> {result.quality?.id_quality}</p>
+          <p><strong>Selfie Quality:</strong> {result.quality?.selfie_quality}</p>
         </div>
       )}
 
-      {/* Hidden canvas for processing */}
       <canvas ref={canvasRef} style={{ display: "none" }} />
     </div>
   );
