@@ -2,6 +2,7 @@
   "name": "age-verification-app",
   "version": "1.0.0",
   "private": true,
+  "homepage": "https://Hustler-01.github.io/CodeX-Zynga-Hackathon",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -12,7 +13,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": {
     "production": [
