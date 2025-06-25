@@ -7,7 +7,7 @@ numpy
 Pillow
 gradio
 jupyter
-tensorflow==2.16.2
+tensorflow==v2.16.2
 keras-facenet
 opencv-python
 numpy
