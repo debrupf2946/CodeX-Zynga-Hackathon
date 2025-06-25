@@ -1,5 +1,7 @@
+// App.js
 import React, { useRef, useState } from "react";
 import Webcam from "react-webcam";
+import axios from "axios";
 
 const App = () => {
   const webcamRef = useRef(null);
@@ -18,9 +20,28 @@ const App = () => {
     alert("Aadhaar uploaded!");
   };
 
-  const handleSubmit = () => {
-    alert("Form submitted!");
-    // Future: send data to backend here
+  const handleSubmit = async () => {
+    if (!uploadedFile) {
+      alert("Please upload Aadhaar.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("aadhaar_image", uploadedFile);
+
+    try {
+      const res = await axios.post("http://localhost:5000/upload_aadhaar", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      const data = res.data;
+      alert(`✅ Verified\nDOB: ${data.dob}\nAge: ${data.age_years}\n18+? ${data.is_18_plus}`);
+    } catch (err) {
+      console.error(err);
+      alert("❌ Error verifying age");
+    }
   };
 
   return (
