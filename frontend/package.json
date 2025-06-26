@@ -2,7 +2,7 @@
   "name": "age-verification-app",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://Hustler-01.github.io/CodeX-Zynga-Hackathon",
+  "homepage": ".",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

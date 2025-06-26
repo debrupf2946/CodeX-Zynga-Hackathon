@@ -1,10 +1,31 @@
 services:
+  # Backend API service
   - type: web
-    name: aadhar-face-verification
-    env: python
+    name: zynga-hackathon-backend
+    runtime: image
+    image:
+      url: quantiphy/codex-zynga-hackathon-backend:latest
     region: oregon
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: python backend/app.py
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.10.13
+      - key: PORT
+        value: 5000
+    plan: free
+  
+  # Frontend web service
+  - type: web
+    name: zynga-hackathon-frontend
+    runtime: image
+    image:
+      url: quantiphy/codex-zynga-hackathon-frontend:latest
+    region: oregon
+    envVars:
+      - key: REACT_APP_BACKEND_URL
+        fromService:
+          name: zynga-hackathon-backend
+          type: web
+          property: url
+      - key: PORT
+        value: 3000
+      - key: NODE_ENV
+        value: production
+    plan: free

@@ -61,6 +61,7 @@ Frontend (React)  <-->  Backend API (Flask/FastAPI)
 | **PIL, NumPy** | Image manipulation |
 | **Regex** | DOB & Aadhaar parsing |
 | **Google Colab** | Model prototyping and testing |
+| **Docker** | Containerization and deployment |
 
 ---
 
@@ -133,7 +134,7 @@ Final Result: ✅ Verified
 
 ##  Getting Started
 
-Once all code is merged into the repo:
+### Method 1: Manual Setup
 
 ```bash
 # Clone the repo
@@ -149,6 +150,35 @@ python app.py
 cd frontend/
 npm install
 npm run dev
+```
+
+### Method 2: Docker Setup
+
+The easiest way to run this application is using Docker:
+
+```bash
+# Clone the repo
+git clone https://github.com/yourusername/age-verification-aadhar.git
+cd age-verification-aadhar
+
+# Build and start the Docker containers
+docker-compose up --build
+
+# Access the application at:
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
+```
+
+To run in detached mode:
+
+```bash
+docker-compose up -d
+```
+
+To stop the containers:
+
+```bash
+docker-compose down
 ```
 
 ---
