@@ -1,0 +1,72 @@
+name: Deploy Frontend to Netlify
+
+on:
+  push:
+    branches:
+      - docker-deployment
+    paths:
+      - 'frontend/**'
+      - 'netlify.toml'
+  pull_request:
+    branches:
+      - docker-deployment
+    paths:
+      - 'frontend/**'
+      - 'netlify.toml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: './frontend/package-lock.json'
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      # Build the React app
+      - name: Build React app
+        run: npm run build
+        working-directory: ./frontend
+        env:
+          CI: false
+
+      # Deploy to Netlify
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: './frontend/build'
+          production-branch: docker-deployment
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: false
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      # Optional: Comment on PR with deploy URL
+      - name: Comment deploy URL on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '🚀 **Netlify Deploy Preview**: The frontend has been deployed! Check the deploy details in the action logs.'
+            }) 
