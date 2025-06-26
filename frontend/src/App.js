@@ -78,6 +78,7 @@ const App = () => {
       formData.append("aadhar", uploadedFile);
       formData.append("selfie", blob, "selfie.jpg");
 
+
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL || "http://localhost:5000"}/verify`, {
         method: "POST",
         body: formData,
@@ -162,3 +163,4 @@ const App = () => {
 };
 
 export default App; 
+
