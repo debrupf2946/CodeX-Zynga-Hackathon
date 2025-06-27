@@ -29,7 +29,7 @@ services:
     depends_on:
       - backend
     environment:
-      - REACT_APP_BACKEND_URL=https://58a5-2405-201-6807-88d6-50a4-9f46-355-87cd.ngrok-free.app
+      - REACT_APP_BACKEND_URL=https://zynga-backend-493402296384.us-central1.run.app
       - PORT=3000
       - NODE_ENV=development
       - BROWSER=none
