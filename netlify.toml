@@ -5,7 +5,7 @@
 
 [build.environment]
   NODE_VERSION = "16"
-  REACT_APP_BACKEND_URL = "https://codex-zynga-hackathon-1xkx.onrender.com"
+  REACT_APP_BACKEND_URL = "https://zynga-backend-493402296384.us-central1.run.app"
 
 [[redirects]]
   from = "/*"
